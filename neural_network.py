@@ -10,10 +10,10 @@ mnist_data = input_data.read_data_sets("data", one_hot=True, reshape=False, vali
 # W  =  weights linking each node between layers (initialized as zeros)
 # B  =  biases of each node (initialized as zeros)
 # XX =  input layer with 784 (28x28) nodes
-X = tf.placeholder(tf.float32, [None, 28, 28, 1])
+X  = tf.placeholder(tf.float32, [None, 28, 28, 1])
 Y_ = tf.placeholder(tf.float32, [None, 10])
-W = tf.Variable(tf.zeros([28*28, 10]))
-B = tf.Variable(tf.zeros([10]))
+W  = tf.Variable(tf.zeros([28*28, 10]))
+B  = tf.Variable(tf.zeros([10]))
 XX = tf.reshape(X, [-1, 28*28])
 
 # Create the neural network model from the create layers
