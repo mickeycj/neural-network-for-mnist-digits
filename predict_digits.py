@@ -1,12 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow as tf
-from random import shuffle
+from random import sample
 from tensorflow.examples.tutorials.mnist import input_data
 
-# Load and shuffle the dataset
-mnist_images = input_data.read_data_sets("data", one_hot=True, reshape=False, validation_size=0).train.images[:10]
-shuffle(mnist_images)
+# Load and sample the dataset
+mnist_images = input_data.read_data_sets("data", one_hot=True, reshape=False, validation_size=0).test.images
+mnist_images = sample(list(mnist_images), 10)
 
 # Create the variables for the neural network
 X  = tf.placeholder(tf.float32, [None, 28, 28, 1])
