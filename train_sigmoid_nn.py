@@ -53,7 +53,7 @@ for i in range(10000+1):
 print("max test accuracy: %.4f" % max_accuracy)
 
 # Save the trained model
-path = "./models/neural_network"
+path = "./models/sigmoid_nn"
 saver = tf.train.Saver()
 if not os.path.exists(path):
     os.makedirs(path)
