@@ -1,3 +1,4 @@
+import os
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
@@ -52,6 +53,9 @@ for i in range(10000+1):
 print("max test accuracy: %.4f" % max_accuracy)
 
 # Save the trained model
-print("training completed!")
+path = "./models/neural_network"
 saver = tf.train.Saver()
-saver.save(session, "./models/neural_network/sigmoid_nn")
+if not os.path.exists(path):
+    os.makedirs(path)
+saver.save(session, "%s/sigmoid_nn" % path)
+print("training completed!")
