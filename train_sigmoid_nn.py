@@ -12,19 +12,19 @@ mnist_data = input_data.read_data_sets("data", one_hot=True, reshape=False, vali
 # B1 =  biases of each node in hidden layer (initialized as random)
 # W2 =  weights linking each node between hidden layer and output layer (initialized as random)
 # B2 =  biases of each node in output layer (initialized as random)
-# XX =  input layer with 784 (28x28) nodes
 X  = tf.placeholder(tf.float32, [None, 28, 28, 1])
 Y_ = tf.placeholder(tf.float32, [None, 10])
 W1 = tf.Variable(tf.random_normal([28*28, 30], stddev=0.1))
 B1 = tf.Variable(tf.random_normal([30], stddev=0.1))
 W2 = tf.Variable(tf.random_normal([30, 10], stddev=0.1))
 B2 = tf.Variable(tf.random_normal([10], stddev=0.1))
-XX = tf.reshape(X, [-1, 28*28])
 
 # Create the neural network model from the create layers
 # Also, create the training method used to optimize the network
 # Using gradient descent to minize the square error of the network
-Y = tf.nn.sigmoid(tf.add(tf.matmul(tf.nn.sigmoid(tf.add(tf.matmul(XX, W1), B1)), W2), B2))
+XX = tf.reshape(X, [-1, 28*28])
+H = tf.nn.sigmoid(tf.add(tf.matmul(XX, W1), B1))
+Y = tf.nn.sigmoid(tf.add(tf.matmul(H, W2), B2))
 square_error = tf.reduce_mean(tf.squared_difference(Y_, Y)) * 1000.0
 train_step = tf.train.GradientDescentOptimizer(0.01).minimize(square_error)
 
