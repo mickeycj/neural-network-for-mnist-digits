@@ -1,3 +1,5 @@
+import numpy as np
+import matplotlib.pyplot as plt
 import tensorflow as tf
 from random import shuffle
 from tensorflow.examples.tutorials.mnist import input_data
@@ -32,4 +34,14 @@ saver.restore(session, path)
 
 # Predict unseen digits
 classifications = session.run(tf.argmax(Y, 1), feed_dict={X: mnist_images})
-print("answer: %s" % ''.join(str(digit) for digit in classifications))
+print("prediction: %s" % ''.join(str(digit) for digit in classifications))
+
+# Plot the digits
+plt.rc("image", cmap="gray")
+for i in range(10):
+    plt.subplot(1, 10, i + 1)
+    plt.imshow(mnist_images[i].reshape(28, 28))
+    plt.xticks(())
+    plt.yticks(())
+plt.tight_layout()
+plt.show()
