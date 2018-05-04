@@ -5,7 +5,7 @@ from tensorflow.examples.tutorials.mnist import input_data
 # Load the dataset
 mnist_data = input_data.read_data_sets("data", one_hot=True, reshape=False, validation_size=0)
 
-# Create each layer of the neural network
+# Create the variables for the neural network
 # X  =  28x28 input image
 # Y_ =  10 possible outputs [0-9]
 # W1 =  weights linking each node between input layer and hidden layer (initialized as random)
@@ -19,7 +19,7 @@ B1 = tf.Variable(tf.random_normal([30], stddev=0.1))
 W2 = tf.Variable(tf.random_normal([30, 10], stddev=0.1))
 B2 = tf.Variable(tf.random_normal([10], stddev=0.1))
 
-# Create the neural network model from the create layers
+# Create the neural network model from the created variables
 # Also, create the training method used to optimize the network
 # Using gradient descent to minize the square error of the network
 XX = tf.reshape(X, [-1, 28*28])
