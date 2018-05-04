@@ -19,7 +19,7 @@ XX = tf.reshape(X, [-1, 28*28])
 # Create the neural network model from the create layers
 # Also, create the training method used to optimize the network
 # Using gradient descent to minize the square error of the network
-Y = tf.nn.sigmoid(tf.matmul(XX, W) + B)
+Y = tf.nn.sigmoid(tf.add(tf.matmul(XX, W), B))
 square_error = tf.reduce_mean(tf.squared_difference(Y_, Y)) * 1000.0
 train_step = tf.train.GradientDescentOptimizer(0.01).minimize(square_error)
 
