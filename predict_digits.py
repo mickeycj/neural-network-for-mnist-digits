@@ -24,7 +24,10 @@ B2 = tf.get_variable("B2", shape=[10])
 # Using gradient descent to minize the square error of the network
 XX = tf.reshape(X, [-1, 28*28])
 H = tf.nn.sigmoid(tf.add(tf.matmul(XX, W1), B1))
-Y = tf.nn.sigmoid(tf.add(tf.matmul(H, W2), B2))
+if model == 'sigmoid':
+    Y = tf.nn.sigmoid(tf.add(tf.matmul(H, W2), B2))
+else:
+    Y = tf.nn.softmax(tf.add(tf.matmul(H, W2), B2))
 
 # Initialize TensorFlow session
 initializer = tf.global_variables_initializer()

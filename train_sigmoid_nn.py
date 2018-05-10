@@ -21,7 +21,7 @@ B2 = tf.Variable(tf.random_normal([10], stddev=0.1), name="B2")
 
 # Create the neural network model from the created variables
 # Also, create the training method used to optimize the network
-# Using gradient descent to minize the square error of the network
+# Using gradient descent to minize the cross entropy of the network
 XX = tf.reshape(X, [-1, 28*28])
 H = tf.nn.sigmoid(tf.add(tf.matmul(XX, W1), B1))
 Ylogits = tf.add(tf.matmul(H, W2), B2)
