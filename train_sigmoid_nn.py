@@ -26,7 +26,7 @@ XX = tf.reshape(X, [-1, 28*28])
 H = tf.nn.sigmoid(tf.add(tf.matmul(XX, W1), B1))
 Ylogits = tf.add(tf.matmul(H, W2), B2)
 Y = tf.nn.sigmoid(Ylogits)
-cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=Ylogits, labels=Y_)) * 100.0
+cross_entropy = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=Ylogits, labels=Y_)) * 100.0
 train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
 
 # Specify how the accuracy is calculated
