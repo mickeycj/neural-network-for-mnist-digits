@@ -1,5 +1,5 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 import tensorflow as tf
 from random import sample
 from tensorflow.examples.tutorials.mnist import input_data
