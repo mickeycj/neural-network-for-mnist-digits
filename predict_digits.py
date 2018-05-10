@@ -1,8 +1,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import sys
 import tensorflow as tf
 from random import sample
 from tensorflow.examples.tutorials.mnist import input_data
+
+# Load argument
+model = sys.argv[1]
 
 # Load and sample the dataset
 mnist_images = input_data.read_data_sets("data", one_hot=True, reshape=False, validation_size=0).test.images
@@ -28,7 +32,7 @@ session = tf.Session()
 session.run(initializer)
 
 # Restore trained model
-path = "./models/sigmoid_nn/sigmoid_nn"
+path = "./models/%s_nn/%s_nn" % (model, model)
 saver = tf.train.Saver()
 saver.restore(session, path)
 
