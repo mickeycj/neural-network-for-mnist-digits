@@ -24,9 +24,10 @@ B2 = tf.Variable(tf.random_normal([10], stddev=0.1), name="B2")
 # Using gradient descent to minize the square error of the network
 XX = tf.reshape(X, [-1, 28*28])
 H = tf.nn.sigmoid(tf.add(tf.matmul(XX, W1), B1))
-Y = tf.nn.sigmoid(tf.add(tf.matmul(H, W2), B2))
-square_error = tf.reduce_mean(tf.squared_difference(Y_, Y)) * 1000.0
-train_step = tf.train.GradientDescentOptimizer(0.01).minimize(square_error)
+Ylogits = tf.add(tf.matmul(H, W2), B2)
+Y = tf.nn.sigmoid(Ylogits)
+cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=Ylogits, labels=Y_)) * 100.0
+train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
 
 # Specify how the accuracy is calculated
 correct_prediction = tf.equal(tf.argmax(Y_, 1), tf.argmax(Y, 1))
@@ -45,10 +46,10 @@ for i in range(10000+1):
     batch_X, batch_Y = mnist_data.train.next_batch(100)
     
     if i % 100 == 0:
-        a, e = session.run([accuracy, square_error], feed_dict={X: batch_X, Y_: batch_Y})
+        a, e = session.run([accuracy, cross_entropy], feed_dict={X: batch_X, Y_: batch_Y})
         print("%d: accuracy: %.4f error: %.4f" % (i, a, e))
     if i % 500 == 0:
-        a, e = session.run([accuracy, square_error], feed_dict={X: mnist_data.test.images, Y_: mnist_data.test.labels})
+        a, e = session.run([accuracy, cross_entropy], feed_dict={X: mnist_data.test.images, Y_: mnist_data.test.labels})
         if a > max_accuracy: max_accuracy = a
         print("%d: ***** epoch %d ***** test accuracy: %.4f test error: %.4f" % (i, i*100//mnist_data.train.images.shape[0]+1, a, e))
     session.run(train_step, feed_dict={X: batch_X, Y_: batch_Y})
