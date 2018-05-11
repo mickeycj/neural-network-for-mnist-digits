@@ -1,10 +1,10 @@
 import math
 import os
 import tensorflow as tf
-from tensorflow.examples.tutorials.mnist import input_data
+from mnist import read_dataset
 
 # Load the dataset
-mnist_data = input_data.read_data_sets("data", one_hot=True, reshape=False, validation_size=0)
+mnist_data = read_dataset()
 
 # Create variable learning rate
 step = tf.placeholder(tf.int32)

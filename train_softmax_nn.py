@@ -1,9 +1,9 @@
 import os
 import tensorflow as tf
-from tensorflow.examples.tutorials.mnist import input_data
+from mnist import read_dataset
 
 # Load the dataset
-mnist_data = input_data.read_data_sets("data", one_hot=True, reshape=False, validation_size=0)
+mnist_data = read_dataset()
 
 # Create the variables for the neural network
 # X  =  28x28 input image

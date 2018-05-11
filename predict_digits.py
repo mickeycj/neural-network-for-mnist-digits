@@ -2,8 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sys
 import tensorflow as tf
+from mnist import read_dataset
 from random import sample
-from tensorflow.examples.tutorials.mnist import input_data
 
 def build_traditional_nn():
     # Create the variables for the neural network
@@ -61,7 +61,7 @@ def build_convolutional_nn():
 model = sys.argv[1]
 
 # Load and sample the dataset
-mnist_images = input_data.read_data_sets("data", one_hot=True, reshape=False, validation_size=0).test.images
+mnist_images = read_dataset().test.images
 mnist_images = sample(list(mnist_images), 10)
 
 # Create the neural network model
