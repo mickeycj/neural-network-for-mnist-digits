@@ -5,6 +5,34 @@ import tensorflow as tf
 from random import sample
 from tensorflow.examples.tutorials.mnist import input_data
 
+def build_traditional_nn():
+    # Create the variables for the neural network
+    X  = tf.placeholder(tf.float32, [None, 28, 28, 1])
+    W1 = tf.get_variable("W1", shape=[28*28, 30])
+    B1 = tf.get_variable("B1", shape=[30])
+    W2 = tf.get_variable("W2", shape=[30, 10])
+    B2 = tf.get_variable("B2", shape=[10])
+
+    # Create the initial neural network model from the created variables
+    XX = tf.reshape(X, [-1, 28*28])
+    H = tf.nn.sigmoid(tf.add(tf.matmul(XX, W1), B1))
+
+    return X, W1, B1, W2, B2, XX, H
+
+def build_sigmoid_nn():
+    # Create the sigmoid neural network model from the initial variables
+    X, W1, B1, W2, B2, XX, H = build_traditional_nn()
+    Y = tf.nn.sigmoid(tf.add(tf.matmul(H, W2), B2))
+
+    return X, W1, B1, W2, B2, XX, H, Y
+
+def build_softmax_nn():
+    # Create the softmax neural network model from the initial variables
+    X, W1, B1, W2, B2, XX, H = build_traditional_nn()
+    Y = tf.nn.softmax(tf.add(tf.matmul(H, W2), B2))
+
+    return X, W1, B1, W2, B2, XX, H, Y
+
 # Load argument
 model = sys.argv[1]
 
@@ -12,22 +40,11 @@ model = sys.argv[1]
 mnist_images = input_data.read_data_sets("data", one_hot=True, reshape=False, validation_size=0).test.images
 mnist_images = sample(list(mnist_images), 10)
 
-# Create the variables for the neural network
-X  = tf.placeholder(tf.float32, [None, 28, 28, 1])
-W1 = tf.get_variable("W1", shape=[28*28, 30])
-B1 = tf.get_variable("B1", shape=[30])
-W2 = tf.get_variable("W2", shape=[30, 10])
-B2 = tf.get_variable("B2", shape=[10])
-
-# Create the neural network model from the created variables
-# Also, create the training method used to optimize the network
-# Using gradient descent to minize the square error of the network
-XX = tf.reshape(X, [-1, 28*28])
-H = tf.nn.sigmoid(tf.add(tf.matmul(XX, W1), B1))
+# Create the neural network model
 if model == 'sigmoid':
-    Y = tf.nn.sigmoid(tf.add(tf.matmul(H, W2), B2))
-else:
-    Y = tf.nn.softmax(tf.add(tf.matmul(H, W2), B2))
+    X, W1, B1, W2, B2, XX, H, Y = build_sigmoid_nn()
+elif model == 'softmax':
+    X, W1, B1, W2, B2, XX, H, Y = build_softmax_nn()
 
 # Initialize TensorFlow session
 initializer = tf.global_variables_initializer()
