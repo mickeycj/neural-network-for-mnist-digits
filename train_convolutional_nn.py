@@ -37,7 +37,7 @@ B5 = tf.Variable(tf.ones([10])/10, name="B5")
 
 # Create the neural network model from the created variables
 # Also, create the training method used to optimize the network
-# Using gradient descent to minize the cross entropy of the network
+# using Adam algorithm to minize the cross entropy of the network
 C1 = tf.nn.relu(tf.add(tf.nn.conv2d(X, W1, strides=[1, 1, 1, 1], padding='SAME'), B1))
 C2 = tf.nn.relu(tf.add(tf.nn.conv2d(C1, W2, strides=[1, 2, 2, 1], padding='SAME'), B2))
 C3 = tf.nn.relu(tf.add(tf.nn.conv2d(C2, W3, strides=[1, 2, 2, 1], padding='SAME'), B3))
@@ -47,7 +47,7 @@ Ylogits = tf.add(tf.matmul(H, W5), B5)
 Y = tf.nn.softmax(Ylogits)
 cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=Ylogits, labels=Y_))*100.0
 learning_rate = 0.0001 + tf.train.exponential_decay(0.003, step, 2000, 1/math.e)
-train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy)
+train_step = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy)
 
 # Specify how the accuracy is calculated
 correct_prediction = tf.equal(tf.argmax(Y_, 1), tf.argmax(Y, 1))
@@ -62,7 +62,7 @@ session.run(initializer)
 # 100 samples for each batch
 # Evaluate the performance on testing set every 500 samples (5 batches)
 max_accuracy = 0
-for i in range(10000+1):
+for i in range(5000+1):
     batch_X, batch_Y = mnist_data.train.next_batch(100)
     
     if i % 100 == 0:
