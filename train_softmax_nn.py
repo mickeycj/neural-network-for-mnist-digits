@@ -6,12 +6,12 @@ from mnist import read_dataset
 mnist_data = read_dataset()
 
 # Create the variables for the neural network
-# X  =  28x28 input image
-# Y_ =  10 possible outputs [0-9]
-# W1 =  weights linking each node between the input layer and the hidden layer (initialized as random)
-# B1 =  biases of each node in the hidden layer (initialized as random)
-# W2 =  weights linking each node between the hidden layer and the output layer (initialized as random)
-# B2 =  biases of each node in the output layer (initialized as random)
+# X  = 28x28 input image
+# Y_ = 10 possible outputs [0-9]
+# W1 = weights linking each node between the input layer and the hidden layer (initialized as random)
+# B1 = biases of each node in the hidden layer (initialized as random)
+# W2 = weights linking each node between the hidden layer and the output layer (initialized as random)
+# B2 = biases of each node in the output layer (initialized as random)
 X  = tf.placeholder(tf.float32, [None, 28, 28, 1])
 Y_ = tf.placeholder(tf.float32, [None, 10])
 W1 = tf.Variable(tf.random_normal([28*28, 30], stddev=0.1), name="W1")

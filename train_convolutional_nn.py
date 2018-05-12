@@ -10,18 +10,18 @@ mnist_data = read_dataset()
 step = tf.placeholder(tf.int32)
 
 # Create the variables for the neural network
-# X  =  28x28 input image
-# Y_ =  10 possible outputs [0-9]
-# W1 =  weights linking each node between the input layer and the first convolutional layer (initialized as truncated)
-# B1 =  biases of each node in the first convolutional layer (initialized as ones)
-# W2 =  weights linking each node between the first convolutional layer and the second convolutional layer (initialized as truncated)
-# B2 =  biases of each node in the second convolutional layer (initialized as ones)
-# W3 =  weights linking each node between the second convolutional layer and the third convolutional layer (initialized as truncated)
-# B3 =  biases of each node in the third convolutional layer (initialized as ones)
-# W4 =  weights linking each node between the third convolutional layer and the hidden layer (initialized as truncated)
-# B4 =  biases of each node in the hidden layer (initialized as ones)
-# W5 =  weights linking each node between the hidden layer and the output layer (initialized as truncated)
-# B5 =  biases of each node in the output layer (initialized as ones)
+# X  = 28x28 input image
+# Y_ = 10 possible outputs [0-9]
+# W1 = weights linking each node between the input layer and the first convolutional layer (initialized as truncated)
+# B1 = biases of each node in the first convolutional layer (initialized as ones)
+# W2 = weights linking each node between the first convolutional layer and the second convolutional layer (initialized as truncated)
+# B2 = biases of each node in the second convolutional layer (initialized as ones)
+# W3 = weights linking each node between the second convolutional layer and the third convolutional layer (initialized as truncated)
+# B3 = biases of each node in the third convolutional layer (initialized as ones)
+# W4 = weights linking each node between the third convolutional layer and the hidden layer (initialized as truncated)
+# B4 = biases of each node in the hidden layer (initialized as ones)
+# W5 = weights linking each node between the hidden layer and the output layer (initialized as truncated)
+# B5 = biases of each node in the output layer (initialized as ones)
 X  = tf.placeholder(tf.float32, [None, 28, 28, 1])
 Y_ = tf.placeholder(tf.float32, [None, 10])
 W1 = tf.Variable(tf.truncated_normal([5, 5, 1, 4], stddev=0.1), name="W1")
