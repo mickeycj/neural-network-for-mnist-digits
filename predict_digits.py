@@ -61,8 +61,7 @@ def build_convolutional_nn():
 model = sys.argv[1]
 
 # Load and sample the dataset
-mnist_images = read_dataset().test.images
-mnist_images = sample(list(mnist_images), 10)
+mnist_images = sample(list(read_dataset().test.images), 10)
 
 # Create the neural network model
 if model == "sigmoid":
@@ -81,19 +80,21 @@ session = tf.Session()
 session.run(initializer)
 
 # Restore trained model
-path = "./models/%s_nn/%s_nn" % (model, model)
 saver = tf.train.Saver()
-saver.restore(session, path)
+saver.restore(session, "./models/%s_nn/%s_nn" % (model, model))
 
 # Predict unseen digits
-classifications = session.run(tf.argmax(Y, 1), feed_dict={X: mnist_images})
-print("prediction: %s" % ''.join(str(digit) for digit in classifications))
+predictions = session.run(tf.argmax(Y, 1), feed_dict={X: mnist_images})
 
-# Plot the digits
+# Plot the digits and their predictions
 plt.rc("image", cmap="gray")
+fig = plt.figure(0)
+fig.canvas.set_window_title("")
+fig.suptitle("Digits & Predictions")
 for i in range(10):
-    plt.subplot(1, 10, i + 1)
-    plt.imshow(mnist_images[i].reshape(28, 28))
+    subplot = plt.subplot(1, 10, i+1)
+    subplot.imshow(mnist_images[i].reshape(28, 28))
+    subplot.text(0.5, -1.25, predictions[i], backgroundcolor=(0.0, 0.0, 0.0), color=(1.0, 1.0, 1.0), fontsize=22, ha="center", transform=subplot.transAxes)
     plt.xticks(())
     plt.yticks(())
 plt.tight_layout()
