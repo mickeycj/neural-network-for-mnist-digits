@@ -66,12 +66,12 @@ for i in range(5000+1):
     batch_X, batch_Y = mnist_data.train.next_batch(100)
     
     if i % 100 == 0:
-        a, e = session.run([accuracy, cross_entropy], feed_dict={X: batch_X, Y_: batch_Y, step: i})
-        print("%d: accuracy: %.4f error: %.4f" % (i, a, e))
+        a, c = session.run([accuracy, cross_entropy], feed_dict={X: batch_X, Y_: batch_Y, step: i})
+        print("%d: accuracy: %.4f loss: %.4f" % (i, a, c))
     if i % 500 == 0:
-        a, e = session.run([accuracy, cross_entropy], feed_dict={X: mnist_data.test.images, Y_: mnist_data.test.labels})
+        a, c = session.run([accuracy, cross_entropy], feed_dict={X: mnist_data.test.images, Y_: mnist_data.test.labels})
         if a > max_accuracy: max_accuracy = a
-        print("%d: ***** epoch %d ***** test accuracy: %.4f test error: %.4f" % (i, i*100//mnist_data.train.images.shape[0]+1, a, e))
+        print("%d: ***** epoch %d ***** test accuracy: %.4f test loss: %.4f" % (i, i*100//mnist_data.train.images.shape[0]+1, a, c))
     session.run(train_step, feed_dict={X: batch_X, Y_: batch_Y, step: i})
 
 # Max accuracy obtained by the model
