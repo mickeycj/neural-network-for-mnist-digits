@@ -5,9 +5,12 @@ import tensorflow as tf
 from mnist import read_dataset
 from random import sample
 
+def build_input_layer():
+    return tf.placeholder(tf.float32, [None, 28, 28, 1])
+
 def build_traditional_nn():
     # Create the variables for the neural network
-    X  = tf.placeholder(tf.float32, [None, 28, 28, 1])
+    X  = build_input_layer()
     W1 = tf.get_variable("W1", [28*28, 30])
     B1 = tf.get_variable("B1", [30])
     W2 = tf.get_variable("W2", [30, 10])
@@ -35,7 +38,7 @@ def build_softmax_nn():
 
 def build_convolutional_nn():
     # Create the variables for the neural network
-    X  = tf.placeholder(tf.float32, [None, 28, 28, 1])
+    X  = build_input_layer()
     W1 = tf.get_variable("W1", [5, 5, 1, 4])
     B1 = tf.get_variable("B1", [4])
     W2 = tf.get_variable("W2", [5, 5, 4, 8])
@@ -89,8 +92,7 @@ predictions = session.run(tf.argmax(Y, 1), feed_dict={X: mnist_images})
 # Plot the digits and their predictions
 plt.rc("image", cmap="gray")
 fig = plt.figure(0)
-fig.canvas.set_window_title("")
-fig.suptitle("Digits & Predictions")
+fig.canvas.set_window_title("Digits & Predictions")
 for i in range(10):
     subplot = plt.subplot(1, 10, i+1)
     subplot.imshow(mnist_images[i].reshape(28, 28))
