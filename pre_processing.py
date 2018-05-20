@@ -47,6 +47,6 @@ for i,rect in enumerate(sorted_ctrs):
   cv2.imshow( str(pt1) +',' + str(pt2) +' : '+str(i),roi)
   cv2.waitKey(0)
   
-
+  #write image 
   cv2.imwrite('roi\\{}.png'.format(i), roi) 
 
