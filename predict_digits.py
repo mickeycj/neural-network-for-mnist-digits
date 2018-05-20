@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sys
 import tensorflow as tf
-from sklearn.externals import joblib
 from mnist import read_dataset
 from random import sample
 
