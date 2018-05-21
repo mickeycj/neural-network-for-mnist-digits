@@ -124,7 +124,7 @@ predictions = session.run(tf.argmax(Y, 1), feed_dict={X: images})
 # Plot the digits and their predictions
 plt.rc("image", cmap="gray")
 fig = plt.figure(0)
-fig.canvas.set_window_title("Digits & Predictions")
+fig.canvas.set_window_title("Student ID Prediction")
 for i in range(10):
     subplot = plt.subplot(1, 10, i+1)
     subplot.imshow(images[i].reshape(28, 28))
