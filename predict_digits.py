@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sys
 import tensorflow as tf
-from mnist import read_dataset
 from random import sample
 
 def build_input_layer():
