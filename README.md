@@ -31,11 +31,11 @@ A neural network for classifying digits in student ID.
 $ python3 train_convolutional_nn.py
 ```
 
-> Run the predictions of some of the available sample images, each containing one student ID. For example:
+> Run the classifications of some of the available sample images, each containing one student ID. For example:
 ```sh
-$ python3 predict_student_id.py convolutional chanon
+$ python3 identify_student_id.py convolutional chanon
 ```
 
 > See the prediction result!
 
-![Prediction Result](./res/example.png)
+![Classification Result](./res/example.png)

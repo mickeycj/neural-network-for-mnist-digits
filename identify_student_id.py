@@ -118,17 +118,17 @@ session.run(initializer)
 saver = tf.train.Saver()
 saver.restore(session, "./models/%s_nn/%s_nn" % (model, model))
 
-# Predict unseen digits
-predictions = session.run(tf.argmax(Y, 1), feed_dict={X: images})
+# Classify unseen digits
+classifications = session.run(tf.argmax(Y, 1), feed_dict={X: images})
 
-# Plot the digits and their predictions
+# Plot the digits and their classifications
 plt.rc("image", cmap="gray")
 fig = plt.figure(0)
-fig.canvas.set_window_title("Student ID Prediction")
+fig.canvas.set_window_title("Student ID Identification")
 for i in range(10):
     subplot = plt.subplot(1, 10, i+1)
     subplot.imshow(images[i].reshape(28, 28))
-    subplot.text(0.5, -1.25, predictions[i], backgroundcolor=(0.0, 0.0, 0.0), color=(1.0, 1.0, 1.0), fontsize=22, ha="center", transform=subplot.transAxes)
+    subplot.text(0.5, -1.25, classifications[i], backgroundcolor=(0.0, 0.0, 0.0), color=(1.0, 1.0, 1.0), fontsize=22, ha="center", transform=subplot.transAxes)
     plt.xticks(())
     plt.yticks(())
 plt.tight_layout()
