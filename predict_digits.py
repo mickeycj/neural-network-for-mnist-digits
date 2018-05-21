@@ -64,18 +64,20 @@ def build_convolutional_nn():
 model = sys.argv[1]
 id = sys.argv[2]
 
-# Read and preprocess the image
+# Create the placeholder
 images = np.zeros((10, 28, 28))
+
+# Read and preprocess the image
 img_gray = cv2.imread("./id/%s.png" % id, 0)
 img_gray = cv2.GaussianBlur(img_gray, (5, 5), 0)
 
 # Extract features from the gray image
-ret, thresh = cv2.threshold(img_gray, 127, 255, cv2.THRESH_BINARY_INV)
+_, thresh = cv2.threshold(img_gray, 127, 255, cv2.THRESH_BINARY_INV)
 kernel = np.ones((3, 3), np.uint8)
 img_dilation = cv2.dilate(thresh, kernel, iterations=1)
 
 # Find contours
-_, ctrs, hier = cv2.findContours(img_dilation.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+_, ctrs, _ = cv2.findContours(img_dilation.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 sorted_ctrs = sorted(ctrs, key=lambda ctr: cv2.boundingRect(ctr)[0] + cv2.boundingRect(ctr)[1])
 
 for i, rect in enumerate(sorted_ctrs):
@@ -92,6 +94,8 @@ for i, rect in enumerate(sorted_ctrs):
 
     # Save image
     images[i] = roi
+
+# Reshape for model input
 images = np.array(images).reshape(10, 28, 28, 1)
 
 # Create the neural network model
