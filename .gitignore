@@ -1,7 +1,4 @@
 /__pycache__
 /.vscode
 /models
-/my_project
-/test
-test.py
-*.png
+*.pyc
