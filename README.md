@@ -22,11 +22,11 @@ A neural network for classifying digits in student ID.
 
 ## Tutorial
 
->Install the above dependencies.
+> Install the above dependencies.
 
->Download the data set from [here](yann.lecun/exdb/mnist/)
+> Download the data set from [here](yann.lecun/exdb/mnist/) and place them in **/data** folder
 
->Train one of the three available models (traditional neural network (sigmoid and softmax) and deep neural network (convolutional)). For example:
+> Train one of the three available models (traditional neural network (sigmoid and softmax) and deep neural network (convolutional)). For example:
 ```sh
 $ python3 train_convolutional_nn.py
 ```
@@ -36,6 +36,6 @@ $ python3 train_convolutional_nn.py
 $ python3 identify_student_id.py convolutional chanon
 ```
 
-> See the prediction result!
+> See the classification result!
 
 ![Classification Result](./res/example.png)
