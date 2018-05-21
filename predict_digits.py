@@ -69,19 +69,24 @@ id = sys.argv[2]
 images = np.zeros((10, 28, 28))
 img_gray = cv2.imread("./id/%s.png" % id, 0)
 img_gray = cv2.GaussianBlur(img_gray, (5, 5), 0)
+
 ret, thresh = cv2.threshold(img_gray, 127, 255, cv2.THRESH_BINARY_INV)
-kernel = np.ones((3, 3), np.uint8)  # values set for this image only - need to change for different images
+kernel = np.ones((3, 3), np.uint8)
 img_dilation = cv2.dilate(thresh, kernel, iterations=1)
+
 _, ctrs, hier = cv2.findContours(img_dilation.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 sorted_ctrs = sorted(ctrs, key=lambda ctr: cv2.boundingRect(ctr)[0] + cv2.boundingRect(ctr)[1])
+
 for i, rect in enumerate(sorted_ctrs):
     x, y, w, h = cv2.boundingRect(rect)
     leng = int(h * 1.6)
     pt1 = int(y + h // 2 - leng // 2)
     pt2 = int(x + w // 2 - leng // 2)
+
     roi = img_dilation[pt1:pt1 + leng, pt2:pt2 + leng]
     roi = cv2.resize(roi, (28, 28), interpolation=cv2.INTER_AREA)
     roi = cv2.dilate(roi, (3, 3))
+
     images[i] = roi
 images = np.array(images).reshape(10, 28, 28, 1)
 
