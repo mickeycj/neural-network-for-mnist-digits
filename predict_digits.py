@@ -1,8 +1,8 @@
+import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 import sys
 import tensorflow as tf
-from mnist import read_dataset
 from random import sample
 
 def build_input_layer():
@@ -62,9 +62,41 @@ def build_convolutional_nn():
 
 # Load argument
 model = sys.argv[1]
+id = sys.argv[2]
 
-# Load and sample the dataset
-mnist_images = sample(list(read_dataset().test.images), 10)
+# Create the placeholder
+images = np.zeros((10, 28, 28))
+
+# Read and preprocess the image
+img_gray = cv2.imread("./id/%s.png" % id, 0)
+img_gray = cv2.GaussianBlur(img_gray, (5, 5), 0)
+
+# Extract features from the gray image
+_, thresh = cv2.threshold(img_gray, 127, 255, cv2.THRESH_BINARY_INV)
+kernel = np.ones((3, 3), np.uint8)
+img_dilation = cv2.dilate(thresh, kernel, iterations=1)
+
+# Find contours
+_, ctrs, _ = cv2.findContours(img_dilation.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+sorted_ctrs = sorted(ctrs, key=lambda ctr: cv2.boundingRect(ctr)[0] + cv2.boundingRect(ctr)[1])
+
+for i, rect in enumerate(sorted_ctrs):
+    # Find bounds
+    x, y, w, h = cv2.boundingRect(rect)
+    leng = int(h * 1.6)
+    pt1 = int(y + h // 2 - leng // 2)
+    pt2 = int(x + w // 2 - leng // 2)
+
+    # Adjust image
+    roi = img_dilation[pt1:pt1 + leng, pt2:pt2 + leng]
+    roi = cv2.resize(roi, (28, 28), interpolation=cv2.INTER_AREA)
+    roi = cv2.dilate(roi, (3, 3))
+
+    # Save image
+    images[i] = roi
+
+# Reshape for model input
+images = np.array(images).reshape(10, 28, 28, 1)
 
 # Create the neural network model
 if model == "sigmoid":
@@ -87,7 +119,7 @@ saver = tf.train.Saver()
 saver.restore(session, "./models/%s_nn/%s_nn" % (model, model))
 
 # Predict unseen digits
-predictions = session.run(tf.argmax(Y, 1), feed_dict={X: mnist_images})
+predictions = session.run(tf.argmax(Y, 1), feed_dict={X: images})
 
 # Plot the digits and their predictions
 plt.rc("image", cmap="gray")
@@ -95,7 +127,7 @@ fig = plt.figure(0)
 fig.canvas.set_window_title("Digits & Predictions")
 for i in range(10):
     subplot = plt.subplot(1, 10, i+1)
-    subplot.imshow(mnist_images[i].reshape(28, 28))
+    subplot.imshow(images[i].reshape(28, 28))
     subplot.text(0.5, -1.25, predictions[i], backgroundcolor=(0.0, 0.0, 0.0), color=(1.0, 1.0, 1.0), fontsize=22, ha="center", transform=subplot.transAxes)
     plt.xticks(())
     plt.yticks(())
