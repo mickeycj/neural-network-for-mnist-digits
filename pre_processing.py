@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-img_path = "/home/wisarut/Desktop/picture1.png"
+img_path = "./id/test.png"
 
 im = cv2.imread(img_path)
 
