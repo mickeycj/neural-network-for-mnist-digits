@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sys
 import tensorflow as tf
-from random import sample
 
 def build_input_layer():
     return tf.placeholder(tf.float32, [None, 28, 28, 1])
