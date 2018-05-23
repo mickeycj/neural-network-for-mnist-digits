@@ -6,8 +6,9 @@ from mnist import read_dataset
 # Load the dataset
 mnist_data = read_dataset()
 
-# Create variable learning rate
+# Create variable learning rate and probability of keeping a node during dropout
 step = tf.placeholder(tf.int32)
+p_keep = tf.placeholder(tf.float32)
 
 # Create the variables for the neural network
 # X  = 28x28 input image
@@ -43,7 +44,7 @@ C2 = tf.nn.relu(tf.add(tf.nn.conv2d(C1, W2, strides=[1, 2, 2, 1], padding='SAME'
 C3 = tf.nn.relu(tf.add(tf.nn.conv2d(C2, W3, strides=[1, 2, 2, 1], padding='SAME'), B3))
 CC = tf.reshape(C3, [-1, 7*7*12])
 H = tf.nn.relu(tf.add(tf.matmul(CC, W4), B4))
-Ylogits = tf.add(tf.matmul(H, W5), B5)
+Ylogits = tf.add(tf.matmul(tf.nn.dropout(H, p_keep), W5), B5)
 Y = tf.nn.softmax(Ylogits)
 cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=Ylogits, labels=Y_))*100.0
 learning_rate = 0.0001 + tf.train.exponential_decay(0.003, step, 2000, 1/math.e)
@@ -66,13 +67,13 @@ for i in range(5000+1):
     batch_X, batch_Y = mnist_data.train.next_batch(100)
     
     if i % 100 == 0:
-        a, c = session.run([accuracy, cross_entropy], feed_dict={X: batch_X, Y_: batch_Y, step: i})
+        a, c = session.run([accuracy, cross_entropy], feed_dict={X: batch_X, Y_: batch_Y, step: i, p_keep: 1.0})
         print("%d: accuracy: %.4f loss: %.4f" % (i, a, c))
     if i % 500 == 0:
-        a, c = session.run([accuracy, cross_entropy], feed_dict={X: mnist_data.test.images, Y_: mnist_data.test.labels})
+        a, c = session.run([accuracy, cross_entropy], feed_dict={X: mnist_data.test.images, Y_: mnist_data.test.labels, p_keep: 1.0})
         if a > max_accuracy: max_accuracy = a
         print("%d: ***** epoch %d ***** test accuracy: %.4f test loss: %.4f" % (i, i*100//mnist_data.train.images.shape[0]+1, a, c))
-    session.run(train_step, feed_dict={X: batch_X, Y_: batch_Y, step: i})
+    session.run(train_step, feed_dict={X: batch_X, Y_: batch_Y, step: i, p_keep: 0.75})
 
 # Max accuracy obtained by the model
 print("max test accuracy: %.4f" % max_accuracy)
