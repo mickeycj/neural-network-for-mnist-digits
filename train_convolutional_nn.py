@@ -6,7 +6,7 @@ from mnist import read_dataset
 # Load the dataset
 mnist_data = read_dataset()
 
-# Create variable learning rate and probability of keeping a node during dropout
+# Create step for variable learning rate and probability of keeping a node during dropout
 step = tf.placeholder(tf.int32)
 p_keep = tf.placeholder(tf.float32)
 
